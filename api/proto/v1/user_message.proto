@@ -1,0 +1,79 @@
+syntax = "proto3";
+package user_service_sc;
+
+option go_package = "/v1";
+
+import "google/protobuf/timestamp.proto";
+
+message CreateUserRequest {
+  string name = 1;
+  int32 age = 2;
+  UserType user_type = 3;
+  repeated CreateItemRequest items = 4;
+  optional int32 test = 5;
+}
+
+message UpdateUserRequest {
+  string id = 1;
+  string name = 2;
+  int32 age = 3;
+  UserType user_type = 4;
+  repeated UpdateItemRequest items = 5;
+}
+
+message DeleteUserRequest {
+  string id = 1;
+}
+
+message DeleteUserResponse {}
+
+message ListUserRequest {
+  PageFilter page_filter = 1;
+}
+
+message ListUserResponse {
+  repeated User users = 1;
+}
+
+message GetUserRequest {
+  string id = 1;
+}
+
+enum UserType {
+  INVALID_USER_TYPE = 0;
+  EMPLOYEE_USER_TYPE = 1;
+  CUSTOMER_USER_TYPE = 2;
+}
+
+message User {
+  string id = 1;
+  string name = 2;
+  int32 age = 3;
+  UserType user_type = 4;
+  repeated Item items = 5;
+  google.protobuf.Timestamp created_at = 6;
+  google.protobuf.Timestamp updated_at = 7;
+}
+
+message CreateItemRequest {
+  string name = 1;
+  string user_id = 2;
+}
+
+message UpdateItemRequest {
+  string id = 1;
+  string name = 2;
+}
+
+message Item {
+  string id = 1;
+  string name = 2;
+  string user_id = 3;
+  google.protobuf.Timestamp created_at = 5;
+  google.protobuf.Timestamp updated_at = 6;
+}
+
+message PageFilter {
+  uint32 limit = 1;
+  uint32 page = 2;
+}
