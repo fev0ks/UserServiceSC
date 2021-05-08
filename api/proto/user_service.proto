@@ -1,9 +1,44 @@
 syntax = "proto3";
 package user_service_sc;
 
-option go_package = "/v1";
+option go_package = "/";
 
+import "google/api/annotations.proto";
 import "google/protobuf/timestamp.proto";
+
+service UserService {
+  rpc CreateUser(CreateUserRequest) returns (User) {
+    option (google.api.http) = {
+      post: "/service-example/v1/user"
+      body: "*"
+    };
+  }
+
+  rpc UpdateUser(UpdateUserRequest) returns (User) {
+    option (google.api.http) = {
+      post: "/service-example/v1/user"
+      body: "*"
+    };
+  }
+
+  rpc DeleteUser(DeleteUserRequest) returns (DeleteUserResponse) {
+    option (google.api.http) = {
+      delete : "/service-example/v1/user/{id}"
+    };
+  }
+
+  rpc ListUser(ListUserRequest) returns (ListUserResponse) {
+    option (google.api.http) = {
+      get: "/service-example/v1/user"
+    };
+  }
+
+  rpc GetUser(GetUserRequest) returns (User) {
+    option (google.api.http) = {
+      get: "/service-example/v1/user/{id}"
+    };
+  }
+}
 
 message CreateUserRequest {
   string name = 1;
