@@ -9,7 +9,7 @@ import (
 
 type createUserRequestTC struct {
 	caseName          string
-	createUserRequest api.CreateUserRequest
+	createUserRequest *api.CreateUserRequest
 	expectedErrorMsg  string
 }
 
@@ -17,29 +17,27 @@ func TestValidateCreateUserRequestData_shouldNotReturnError_whenRequestIsValid(t
 	validTestCases := []createUserRequestTC{
 		{
 			caseName: "User with 0 items",
-			createUserRequest: api.CreateUserRequest{
+			createUserRequest: &api.CreateUserRequest{
 				Name:     "testName",
 				Age:      123,
 				UserType: api.UserType_EMPLOYEE_USER_TYPE,
 				Items:    initCreateItemRequest(createItems(0)...),
 			},
-			expectedErrorMsg: "",
 		},
 		{
 			caseName: "User with 2 items",
-			createUserRequest: api.CreateUserRequest{
+			createUserRequest: &api.CreateUserRequest{
 				Name:     "testName",
 				Age:      123,
 				UserType: api.UserType_EMPLOYEE_USER_TYPE,
 				Items:    initCreateItemRequest(createItems(2)...),
 			},
-			expectedErrorMsg: "",
 		},
 	}
 
 	for _, tc := range validTestCases {
 		t.Run(tc.caseName, func(t *testing.T) {
-			assert.Equal(t, tc.expectedErrorMsg, ValidateCreateUserRequestData(&tc.createUserRequest).Error())
+			assert.Equal(t, nil, ValidateCreateUserRequestData(tc.createUserRequest))
 		})
 	}
 }
@@ -48,7 +46,7 @@ func TestValidateCreateUserRequestData_shouldReturnError_whenRequestIsNotValid(t
 	validTestCases := []createUserRequestTC{
 		{
 			caseName: "User with 0 items",
-			createUserRequest: api.CreateUserRequest{
+			createUserRequest: &api.CreateUserRequest{
 				Age:      123,
 				UserType: api.UserType_EMPLOYEE_USER_TYPE,
 				Items:    initCreateItemRequest(createItems(0)...),
@@ -57,7 +55,7 @@ func TestValidateCreateUserRequestData_shouldReturnError_whenRequestIsNotValid(t
 		},
 		{
 			caseName: "User with 2 items",
-			createUserRequest: api.CreateUserRequest{
+			createUserRequest: &api.CreateUserRequest{
 				Name:     "testName",
 				Age:      -123,
 				UserType: api.UserType_EMPLOYEE_USER_TYPE,
@@ -67,7 +65,7 @@ func TestValidateCreateUserRequestData_shouldReturnError_whenRequestIsNotValid(t
 		},
 		{
 			caseName: "User with 2 items",
-			createUserRequest: api.CreateUserRequest{
+			createUserRequest: &api.CreateUserRequest{
 				Name:     "testName",
 				Age:      123,
 				UserType: api.UserType_EMPLOYEE_USER_TYPE,
@@ -79,7 +77,7 @@ func TestValidateCreateUserRequestData_shouldReturnError_whenRequestIsNotValid(t
 
 	for _, tc := range validTestCases {
 		t.Run(tc.caseName, func(t *testing.T) {
-			assert.Equal(t, tc.expectedErrorMsg, ValidateCreateUserRequestData(&tc.createUserRequest).Error())
+			assert.Equal(t, tc.expectedErrorMsg, ValidateCreateUserRequestData(tc.createUserRequest).Error())
 		})
 	}
 }
