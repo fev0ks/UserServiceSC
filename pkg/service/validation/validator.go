@@ -82,7 +82,7 @@ func userValidationErrorFmt(userData UserData, err error) error {
 }
 
 func createUserValidationErrorFmt(userData CreateUserData, err error) error {
-	return errors.New(fmt.Sprintf("User validation failed: user- '%v', err - %v", userData, err.Error()))
+	return errors.New(fmt.Sprintf("User validation failed: user - '%v', err - %v", userData, err.Error()))
 }
 
 func validateCreateItemRequestData(itemDate NewItemData) error {
