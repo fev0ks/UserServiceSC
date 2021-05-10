@@ -22,7 +22,7 @@ var lis *bufconn.Listener
 //init
 //TODO:
 // mock db,
-// some tests sometimes have additional spaces in message :(
+// sometimes some tests have additional spaces in message :(
 func init() {
 	lis = bufconn.Listen(bufSize)
 	log.Println("server is started")
